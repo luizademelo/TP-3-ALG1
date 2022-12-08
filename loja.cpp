@@ -30,7 +30,7 @@ void test(){
                     {
                         if(v[j] < p) menores++; 
                     }
-                    if(menores < lis(v, v.size()))
+                    if(menores <= lis(v, v.size()))
                         v.push_back(p); 
                     else v.insert(v.begin(), 1,p); 
                 }
