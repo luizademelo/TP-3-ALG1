@@ -25,22 +25,16 @@ void test(){
                 else if(p < v[v.size()-1]) v.push_back(p); 
                 else
                 {
-                    int menores = 0; 
+                    int menores = 0, maiores = 0; 
                     for(int j = 0; j < v.size(); j++)
                     {
                         if(v[j] < p) menores++; 
+                        else maiores++; 
                     }
-                    if(menores <= lis(v, v.size()))
+                    if(menores <= maiores)
                         v.push_back(p); 
                     else v.insert(v.begin(), 1,p); 
                 }
-                // else 
-                // {
-                //     int diff_sup = abs(p - v[0]); 
-                //     int diff_inf = abs(p - v[size]); 
-                //     if(diff_sup < v[size]) v.insert(v.begin(), 1, p); 
-                //     else v.push_back(p); 
-                // }
             }
         }
         for(int i = 0; i < v.size(); i++) cout << v[i] << " "; 
