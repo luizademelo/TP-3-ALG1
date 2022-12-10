@@ -3,29 +3,28 @@ using namespace std;
 
 int main()
 {
-  Loja minha_loja;
-  int N, R, P;
+    int N, R, P;
 
-  cin >> N;
+    cin >> N;
 
-
-  for (int i = 0; i < N; i++)
-  {
-
-    cin >> R;
-
-    for (int j = 0; j < R; j++)
+    for (int i = 0; i < N; i++)
     {
-      cin >> P;
+        Loja minha_loja;
 
-      minha_loja.set_Rolos(P);
+        cin >> R;
+
+        for (int j = 0; j < R; j++)
+        {
+            cin >> P;
+
+            minha_loja.set_Rolos(P);
+        }
+
+        int resp = minha_loja.lds();
+        cout << resp << endl;
+
+        minha_loja.rolos.clear();
     }
 
-    int resp = minha_loja.lds();
-    cout << resp << endl;
-
-    minha_loja.rolos.clear();
-  }
-
-  return (0);
+    return (0);
 }
