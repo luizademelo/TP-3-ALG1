@@ -1,102 +1,145 @@
 #include "loja.hpp"
 
-using namespace std;
-
-void test()
+Loja::Loja()
 {
+}
 
-    int n;
-    cin >> n;
-    while (n--)
+void Loja::set_Rolos(int P)
+{
+    if (rolos.size() == 0)
     {
-        int r;
-        cin >> r;
-        vector<int> v1(r);
-        vector<int> v;
-        for (int i = 0; i < r; i++)
-            cin >> v1[i];
-        for (int i = 0; i < r; i++)
+        rolos.push_back(P);
+    }
+    else
+    {
+        vector<int> old_rolos = rolos;
+        int lds_old = lds();
+
+        vector<int> begin_rolos = rolos;
+        begin_rolos.insert(begin_rolos.begin(), 1, P);
+        int lds_begin = lds();
+
+        vector<int> end_rolos = rolos;
+        end_rolos.push_back(P);
+        int lds_end = lds();
+
+        if (lds_old > lds_begin && lds_old > lds_end)
         {
-            int p = v1[i];
-            if (i == 0)
-            {
-                v.push_back(p);
-            }
-            else
-            {
-                vector<int> aux_front = v;
-                vector<int> aux_back = v;
-                aux_front.insert(aux_front.begin(), 1, p);
-                aux_back.push_back(p);
-                vector<int> max_front = constructPrintLIS(aux_front, aux_front.size());  
-                vector<int> max_back = constructPrintLIS(aux_back, aux_back.size());  
-                if (max_front.size() > max_back.size())
-                {
-                    v.insert(v.begin(), 1, p);
-                }else if(max_front.size() == max_back.size())
-                {
-                    vector<int> max = constructPrintLIS(v, v.size()); 
-                    int maiores(0), menores(0); 
-                    for(int j = 0; j < max.size(); j++)
-                    {
-                        if(p < max[j]) maiores++; 
-                        else menores++; 
-                    }
-                    if(maiores >= menores) v.push_back(p); 
-                    else v.insert(v.begin(), 1, p); 
-                }
-                else
-                    v.push_back(p);
-            }
+            // rolos.insert(rolos.begin(), 1, P);
+            rolos.push_back(P);
+            //     rolos = old_rolos;
         }
-        int max = constructPrintLIS(v, v.size()).size();
-        for (int x : v)
-            cout << x << " ";
-        cout << endl;
-        cout << max << endl;
+        else if (lds_begin > lds_old && lds_begin > lds_end)
+        {
+            // rolos = begin_rolos;
+
+            rolos.insert(rolos.begin(), 1, P);
+        }
+        else if (lds_end >= lds_old && lds_end >= lds_begin)
+        {
+            // rolos = end_rolos;
+            rolos.push_back(P);
+        }
+        int diff_sup = abs(P - rolos[0]);
+        int diff_inf = abs(P - rolos[rolos.size()]);
+
+
+
+        if (diff_sup < rolos[rolos.size() - 1])
+        {
+
+            rolos.insert(rolos.begin(), 1, P);
+
+        }
+        else if (diff_inf < rolos[0])
+        {
+            rolos.push_back(P);
+        }
+
+        int maiores(0), menores(0);
+        for (int j = 0; j < rolos.size(); j++)
+        {
+            if (P < rolos[j])
+                maiores++;
+            else
+                menores++;
+        }
+        if (maiores >= menores)
+            rolos.push_back(P);
+        else
+            rolos.insert(rolos.begin(), 1, P);
     }
 }
 
-vector<int> constructPrintLIS(vector<int> arr, int n)
+void Loja::print_Rolos()
 {
-    // L[i] - The longest increasing sub-sequence
-    // ends with arr[i]
-    vector<vector<int>> L(n);
+    for (long unsigned int i = 0; i < rolos.size(); i++)
+    {
+        std::cout << rolos[i] << " ";
+    }
+    cout << endl;
+}
 
-    // L[0] is equal to arr[0]
-    L[0].push_back(arr[0]);
+void Loja::lis()
+{
+    int n = rolos.size();
+    int lis[n];
 
-    // start from index 1
+    lis[0] = 1;
+
     for (int i = 1; i < n; i++)
     {
-        // do for every j less than i
+        lis[i] = 1;
         for (int j = 0; j < i; j++)
         {
-            /* L[i] = {Max(L[j])} + arr[i]
-            where j < i and arr[j] < arr[i] */
-            if ((arr[i] < arr[j]) &&
-                (L[i].size() < L[j].size() + 1))
-                L[i] = L[j];
+            if (rolos[i] > rolos[j] && lis[i] < lis[j] + 1)
+            {
+                lis[i] = lis[j] + 1;
+            }
         }
-
-        // L[i] ends with arr[i]
-        L[i].push_back(arr[i]);
     }
 
-    // L[i] now stores increasing sub-sequence of
-    // arr[0..i] that ends with arr[i]
-    vector<int> max = L[0];
+    int maior = lis[0];
+    for (int i = 1; i < n; i++)
+    {
+        if (maior < lis[i])
+        {
+            maior = lis[i];
+        }
+    }
 
-    // LIS will be max of all increasing sub-
-    // sequences of arr
-    for (vector<int> x : L)
-        if (x.size() > max.size())
-            max = x;
-    // for (int x : max)
-    //     cout << x << " ";
-    // cout << endl;
-
-    // max will contain LIS
-    // printLIS(max);
-    return max;
+    cout << maior;
 }
+
+int Loja::lds()
+{
+    int n = rolos.size();
+    int lds[n];
+
+    lds[0] = 1;
+
+    for (int i = 1; i < n; i++)
+    {
+        lds[i] = 1;
+
+        for (int j = 0; j < i; j++)
+        {
+            if (rolos[i] < rolos[j] && lds[i] < lds[j] + 1)
+            {
+                lds[i] = lds[j] + 1;
+            }
+        }
+    }
+    int maior = lds[0];
+    for (int i = 1; i < n; i++)
+    {
+        if (maior < lds[i])
+        {
+            maior = lds[i];
+        }
+    }
+
+    return maior;
+}
+
+
