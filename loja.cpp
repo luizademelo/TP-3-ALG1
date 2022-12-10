@@ -62,57 +62,8 @@ void Loja::set_Rolos(int P)
     }
     else
     {
-        vector<int> old_rolos = rolos;
-        int lds_old = LongestIncreasingSubsequenceLength(old_rolos);
-
-        vector<int> begin_rolos = rolos;
-        begin_rolos.insert(begin_rolos.begin(), 1, P);
-        int lds_begin = LongestIncreasingSubsequenceLength(begin_rolos);
-
-        vector<int> end_rolos = rolos;
-        end_rolos.push_back(P);
-        int lds_end = LongestIncreasingSubsequenceLength(end_rolos);
-
-        if (lds_old > lds_begin && lds_old > lds_end)
-        {
-            rolos.push_back(P);
-        }
-        else if (lds_begin > lds_old && lds_begin > lds_end)
-        {
-            rolos.insert(rolos.begin(), 1, P);
-        }
-        else if (lds_end > lds_old && lds_end > lds_begin)
-        {
-            rolos.push_back(P);
-        }
-        else
-        {
-            rolos.push_back(P);
-        }
-
-        int diff_sup = abs(P - rolos[0]);
-        int diff_inf = abs(P - rolos[rolos.size()]);
-
-        if (diff_sup < rolos[rolos.size() - 1])
-        {
-            rolos.insert(rolos.begin(), 1, P);
-        }
-        else if (diff_inf < rolos[0])
-        {
-            rolos.push_back(P);
-        }
-        int maiores(0), menores(0);
-        for (int j = 0; j < rolos.size(); j++)
-        {
-            if (P < rolos[j])
-                maiores++;
-            else
-                menores++;
-        }
-        if (maiores >= menores)
-            rolos.push_back(P);
-        else
-            rolos.insert(rolos.begin(), 1, P);
+        rolos.insert(rolos.begin(), 1, P); 
+        rolos.push_back(P); 
     }
 }
 
