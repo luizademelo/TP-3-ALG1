@@ -3,27 +3,26 @@ using namespace std;
 
 int main()
 {
-    int N, R, P;
+    int n; 
+    cin >> n;
 
-    cin >> N;
-
-    for (int i = 0; i < N; i++)
+    while(n--)
     {
-        Loja minha_loja;
+        int r; 
+        vector<int> v; 
+        cin >> r;
 
-        cin >> R;
-
-        for (int j = 0; j < R; j++)
+        for (int j = 0; j < r; j++)
         {
-            cin >> P;
-
-            minha_loja.set_Rolos(P);
+            int p; 
+            cin >> p;
+            v.insert(v.begin(), 1, p); 
+            v.push_back(p); 
         }
 
-        int resp = minha_loja.lds();
-        cout << resp << endl;
 
-        minha_loja.rolos.clear();
+        int ans = lds(v); 
+        cout << ans << endl;
     }
 
     return (0);
