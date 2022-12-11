@@ -1,4 +1,6 @@
 #include "./loja.hpp"
+#include <bits/stdc++.h>
+
 using namespace std;
 
 int main()
@@ -9,7 +11,7 @@ int main()
     while(n--)
     {
         int r; 
-        vector<int> v; 
+        vector<int> v; // vetor de armazenamento dos rolos 
         cin >> r;
 
         for (int j = 0; j < r; j++)
